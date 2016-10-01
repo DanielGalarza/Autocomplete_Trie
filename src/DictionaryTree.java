@@ -165,36 +165,49 @@ public class DictionaryTree {
 
         /* If the current node has the 'isValidWord' flag on, display it it */
         if (current.isValidWord) {
-
-            /* We've found a word, so add it to the total of words we've seen */
-            numberOfWordsWeHaveSeen++;
-
-            /* if we've found 10 or less, valid words... */
-            if(numberOfWordsWeHaveSeen <= 10) {
-
-                /* if the prefix is only one char, just build the word using what's in lettersInWord[] array */
-                if (prefix.length() == 1) {
-
-                    for (int j = 0; j <= depth; j++) {
-                        textArea.append(Character.toString(lettersInWord[j]));
-                    }//for
-
-                    textArea.append("\n");
-                }
-
-                /* if the prefix's length is longer than one, then we want to concatenate prefix with everything after index 0  */
-                else if (prefix.length() > 1) {
-
-                    textArea.append(prefix);
-
-                    for (int j = 1; j <= depth; j++) {
-                        textArea.append(Character.toString(lettersInWord[j]));
-                    }//for
-
-                    textArea.append("\n");
-                }//if-else
-            }//if
+            displayWordsToTextArea(prefix, lettersInWord, depth, textArea);
         }//if
     }//traverseTree
+
+
+    /**
+     * This method helps disaply the possible words to the text area of the GUI.
+     *
+     * @param prefix            The posibble word's prefix.
+     * @param lettersInWord     Array containing the possible word, as characters.
+     * @param depth             The depth of the tree for the word (describes the possible word's length).
+     * @param textArea          The text area to display to.
+     */
+    public static void displayWordsToTextArea(String prefix, char[] lettersInWord, int depth, JTextArea textArea) {
+
+        /* We've found a word, so add it to the total of words we've seen */
+        numberOfWordsWeHaveSeen++;
+
+            /* if we've found 10 or less, valid words... */
+        if(numberOfWordsWeHaveSeen <= 10) {
+
+                /* if the prefix is only one char, just build the word using what's in lettersInWord[] array */
+            if (prefix.length() == 1) {
+
+                for (int j = 0; j <= depth; j++) {
+                    textArea.append(Character.toString(lettersInWord[j]));
+                }//for
+
+                textArea.append("\n");
+            }
+
+                /* if the prefix's length is longer than one, then we want to concatenate prefix with everything after index 0  */
+            else if (prefix.length() > 1) {
+
+                textArea.append(prefix);
+
+                for (int j = 1; j <= depth; j++) {
+                    textArea.append(Character.toString(lettersInWord[j]));
+                }//for
+
+                textArea.append("\n");
+            }//if-else
+        }//if
+    }//displayWordsToTextArea
 
 }//DictionaryTree

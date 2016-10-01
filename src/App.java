@@ -28,30 +28,42 @@ public class App {
 
             @Override
             public void keyTyped(KeyEvent e) {
-
-                word = word + Character.toString(e.getKeyChar());
-                textArea.setText("");
-
-                /* set the word to whatever is in the text field when the delete/backspace key is pressed. */
-                if(e.getExtendedKeyCode() == KeyEvent.VK_BACK_SPACE) {
-                    word = textField.getText();
-
-                    /* Fix so that app doesn't crash when we hit the delete/backspace when the text field is empty */
-                    innerloop:
-                    if(word.isEmpty()) {
-                        break innerloop;
-                    } else {
-                        tree.findPossibleWords(word, textArea);
-                    }
-                }
-                else {
-                    tree.findPossibleWords(word, textArea);
-                }//if-else
-
+                renderAutoCompleteResults(e, textArea, textField);
                 super.keyTyped(e);
             }//keyTyped
         });
     }//App Constructor
+
+
+    /**
+     * This method takes care of the input from the user and executes the appropriate methods to run the autocomplete
+     * tree.
+     *
+     * @param e             The key event to process.
+     * @param textArea      The text area to print results to.
+     * @param textField     the text field that take suser input.
+     */
+    public static void renderAutoCompleteResults(KeyEvent e, JTextArea textArea, JTextField textField) {
+
+        word = word + Character.toString(e.getKeyChar());
+        textArea.setText("");
+
+        /* set the word to whatever is in the text field when the delete/backspace key is pressed. */
+        if(e.getExtendedKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            word = textField.getText();
+
+            /* Fix so that app doesn't crash when we hit the delete/backspace when the text field is empty */
+            innerloop:
+            if(word.isEmpty()) {
+                break innerloop;
+            } else {
+                tree.findPossibleWords(word, textArea);
+            }
+        }
+        else {
+            tree.findPossibleWords(word, textArea);
+        }//if-else
+    }//renderAutoCompleteResults
 
 
     /**
