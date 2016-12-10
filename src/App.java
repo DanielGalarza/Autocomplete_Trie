@@ -41,14 +41,14 @@ public class App {
      *
      * @param e             The key event to process.
      * @param textArea      The text area to print results to.
-     * @param textField     the text field that take suser input.
+     * @param textField     the text field that takes user input.
      */
     public static void renderAutoCompleteResults(KeyEvent e, JTextArea textArea, JTextField textField) {
 
         word = word + Character.toString(e.getKeyChar());
         textArea.setText("");
 
-        /* set the word to whatever is in the text field when the delete/backspace key is pressed. */
+        /* Set the word to whatever is in the text field when the delete/backspace key is pressed. */
         if(e.getExtendedKeyCode() == KeyEvent.VK_BACK_SPACE) {
             word = textField.getText();
 
@@ -57,17 +57,28 @@ public class App {
             if(word.isEmpty()) {
                 break innerloop;
             } else {
-                tree.findPossibleWords(word, textArea);
+                String[] parts = word.split(" ");           // splitting the string at the spaces
+                String lastWord = parts[parts.length - 1];  // we want the last word of the string in the text-box
+                word = lastWord;                            // Initializes 'word' to the last word so that we have a valid search in the tree
+                tree.findPossibleWords(lastWord, textArea);
             }
         }
+
+        /* Set 'word' to empty string when the 'space' key is pressed, so that we may do a new search with the last
+         * word in the text box */
+        else if(e.getExtendedKeyCode() == KeyEvent.VK_SPACE) {
+            word = "";
+        }
+
         else {
             tree.findPossibleWords(word, textArea);
         }//if-else
+
     }//renderAutoCompleteResults
 
 
     /**
-     *  This method takes care of setting up the GUI
+     * This method takes care of setting up the GUI
      */
     public static void setUpFrame() {
         JFrame frame = new JFrame("Dictionary Tree");
